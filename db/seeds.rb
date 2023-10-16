@@ -5,3 +5,25 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+# Create some users
+User.create([
+    { username: 'admin', email: 'admin@example.com', password: 'password', role: 1  }, # Admin user
+    { username: 'user2', email: 'user2@example.com', password: 'password' },
+    { username: 'user3', email: 'user3@example.com', password: 'password'},
+  ])
+  
+  # Create some rooms
+  Room.create([
+    { room_number: '101', room_type: 'Single', description: 'A cozy single room', price: 100, capacity: 1 },
+    { room_number: '201', room_type: 'Double', description: 'Spacious double room', price: 150, capacity: 2 },
+    { room_number: '301', room_type: 'Suite', description: 'Luxurious suite', price: 250, capacity: 4 },
+  ])
+  
+  # Create some bookings
+  Booking.create([
+    { start_date: Date.today, end_date: Date.today + 3, notes: 'First booking', user_id: 1, room_id: 1 },
+    { start_date: Date.today + 5, end_date: Date.today + 7, notes: 'Second booking', user_id: 2, room_id: 2 },
+    { start_date: Date.today - 2, end_date: Date.today, notes: 'Third booking', user_id: 1, room_id: 3 },
+  ])
+  
+  puts "Seed data created successfully"
