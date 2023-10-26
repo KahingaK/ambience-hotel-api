@@ -5,11 +5,12 @@ class RoomsController < ApplicationController
 
     # Handle ActiveRecord Unprocessable Entity - raised when a record fails to save or validate in the database.
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
-
-     # GET /rooms
+    skip_before_action :authorize_request, only: [:index] 
+     
+    # GET /rooms
      def index
         rooms = Room.all
-        render json: articles, status: :ok
+        render json: rooms, status: :ok
     end
 
     # GET /rooms/:id
@@ -24,7 +25,7 @@ class RoomsController < ApplicationController
         if current_user && current_user.role == "admin"
             room = current_user.rooms.new(room_params)
             if room.save
-                render json: room, status: :ok
+                render json: {message: "Room Created" ,room}, status: :ok
             else
                 render json: room.errors.full_messages, status: :unprocessable_entity
             end
@@ -39,7 +40,7 @@ class RoomsController < ApplicationController
         current_user = @current_user
         if current_user && current_user.role == "admin"
             if room.update(room_params)
-                render json: room, status: :accepted
+                render json: {message: "Update Successful" ,room}, status: :accepted
             else
                 render json: room.errors, status: :unprocessable_entity
             end
@@ -83,6 +84,7 @@ def available
         room = find_room
         if current_user && current_user.role == "admin"
             room.destroy
+            render json: {message: "Deleted"}
             head :no_content
         else
             render json: { error: "You do not have permission to delete this article" }, status: :unauthorized

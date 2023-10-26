@@ -19,9 +19,9 @@ class UsersController < ApplicationController
         if user.save
           token = JWT.encode({ user_id: user.id }, Rails.application.secrets.secret_key_base)
           
-          render json: {user: user, token: token }, status: :created
+          render json: {message: "log in successful", user: user, token: token }, status: :created
         else
-          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+          render json: { error: user.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         user = User.find_by(email: params[:email])
         if user && user.authenticate(params[:password])
           token = JWT.encode({ user_id: user.id }, Rails.application.secrets.secret_key_base)
-          render json: {message: "loggedin successfully",user: user, token: token }
+          render json: {message: "log in successful",user: user, token: token }
         else
           render json: { error: 'Invalid email or password' }, status: :unauthorized
         end

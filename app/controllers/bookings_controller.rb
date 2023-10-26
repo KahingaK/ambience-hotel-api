@@ -12,25 +12,36 @@ class BookingsController < ApplicationController
     end
 
 # POST /bookings (If logged in)
-    def create
-        current_user = @current_user
-        if current_user
-            booking = current_user.bookings.new(booking_params)
-            if booking.save
-                render json: booking, status: :ok
-            else
-                render json: booking.errors.full_messages, status: :unprocessable_entity
-            end
-        else
-            render json: { error: 'You need to be logged in to post an article '}, status: :unauthorized
-        end
+    # POST /bookings (If logged in)
+def create
+  current_user = @current_user
+  if current_user
+    # Find the room based on room_type
+    room = Room.find_by(room_type: params[:room_type])
+
+    if room
+      # Create a booking with the found room_id
+      booking = current_user.bookings.new(booking_params.merge(room_id: room.id))
+
+      if booking.save
+        render json: booking, status: :ok
+      else
+        render json: booking.errors.full_messages, status: :unprocessable_entity
+      end
+    else
+      render json: { error: 'Room not found for the given room_type' }, status: :not_found
     end
+  else
+    render json: { error: 'You need to be logged in to book' }, status: :unauthorized
+  end
+end
+
 
  # PATCH /bookings/:id  (If logged in)
     def update
         booking = find_booking
         current_user = @current_user
-        if current_user && (current_user == booking.user || current_user.role == "admin")
+        if current_user && current_user.role == "admin"
             if booking.update(params.permit[:notes])
                 render json: article, status: :accepted
             else
@@ -87,7 +98,7 @@ private
     end
 
     def booking_params
-        params.require(:booking).permit(:start_date, :end_date, :user_id, :notes, :room_id)
+        params.require(:booking).permit(:start_date, :end_date, :user_id, :notes)
     end
 
     def render_not_found_response
