@@ -73,8 +73,8 @@ config.action_mailer.default_options = { from: 'no-reply@example.com' }
    password: "hfre llxj tqvx vaxw",
    authentication:       'plain',
    enable_starttls_auto: true,
-   open_timeout:         10,
-   read_timeout:         10 }
+   open_timeout:         20,
+   read_timeout:         20 }
 
 
   # Raises error for missing translations.
