@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1>New Booking Notification</h1>
+  <p>Hello <%= @user.username %>,</p>
+  <p>A new booking has been made:</p>
+  <p>
+    <strong>Booking Details:</strong><br>
+    Room: <%= @booking.room.room_type %><br>
+    Check-in Date: <%= @booking.start_date %><br>
+    <!-- Add other booking details here -->
+  </p>
+  <p>Thank you!</p>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1> Hello <%= @user.username %>, </h1>
+    <p>
+      We have received your booking from westernBliss.com starting <%= @booking.start_date%> to <%= @booking.end_date%> and is being reviewed pending approval.
+    </p>
+    <p>
+      Feel free to make inquiries or send any personalized notes regarding your stay on <%@mail%>
+    </p>
+    <p>Thanks for choosing Wesrern Bliss and have a great day!</p>
+  </body>
+</html>

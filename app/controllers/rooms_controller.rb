@@ -23,9 +23,9 @@ class RoomsController < ApplicationController
     def create
         current_user = @current_user
         if current_user && current_user.role == "admin"
-            room = current_user.rooms.new(room_params)
+            room = Room.new(room_params)
             if room.save
-                render json: {message: "Room Created" ,room}, status: :ok
+                render json: {message: "Room Created" ,room: room}, status: :ok
             else
                 render json: room.errors.full_messages, status: :unprocessable_entity
             end
@@ -40,7 +40,7 @@ class RoomsController < ApplicationController
         current_user = @current_user
         if current_user && current_user.role == "admin"
             if room.update(room_params)
-                render json: {message: "Update Successful" ,room}, status: :accepted
+                render json: {message: "Update Successful" ,room: room}, status: :accepted
             else
                 render json: room.errors, status: :unprocessable_entity
             end
@@ -57,13 +57,13 @@ def available
     current_user = @current_user
   
     if current_user && current_user.role == "admin"
-      if params[:available].to_s == "true"
+      if room.available.to_s == "false"
         if room.update(available: true)
           render json: { message: 'Room now available' }
         else
           render json: { error: 'Unable to approve availability' }, status: :unprocessable_entity
         end
-      elsif params[:available].to_s == "false"
+      elsif room.available.to_s == "true"
         if room.update(available: false)  # Corrected from "booking" to "room"
           render json: { message: 'Room unavailable' }
         else
@@ -98,7 +98,7 @@ def available
         end
 
         def room_params
-            params.require(:room).permit(:room_number, :room_type, :description, :price, :capacity)
+            params.permit(:room_number, :room_type, :description, :price, :capacity)
 
     
         end

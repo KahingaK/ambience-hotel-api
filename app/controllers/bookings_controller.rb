@@ -7,45 +7,75 @@ class BookingsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   # GET /bookings
     def index
-        articles = Booking.all
-        render json: bookings, status: :ok
+        bookings = Booking.all
+        render json: bookings.to_json(include: :user), status: :ok
+    end
+    #GET /activebookings
+    def active_bookings
+      start_of_week = Date.today.beginning_of_week
+      end_of_week = Date.today.end_of_week
+      today = Date.today
+      active_bookings = Booking.where('end_date > ? AND start_date >= ? AND start_date <= ?', today, start_of_week, end_of_week) 
+      render json: active_bookings.to_json(include: :user), status: :ok
     end
 
 # POST /bookings (If logged in)
     # POST /bookings (If logged in)
 def create
   current_user = @current_user
-  if current_user
+  if current_user 
+    if current_user.role == "guest"
     # Find the room based on room_type
-    room = Room.find_by(room_type: params[:room_type])
+      room = Room.find_by(room_type: params[:room_type])
 
-    if room
-      # Create a booking with the found room_id
-      booking = current_user.bookings.new(booking_params.merge(room_id: room.id))
+      if room
+        # Create a booking with the found room_id
+        booking = current_user.bookings.new(booking_params.merge(room_id: room.id))
 
-      if booking.save
-        render json: booking, status: :ok
+        if booking.save
+          UserMailer.with(booking: booking).admin_notification.deliver_later
+          UserMailer.with(user: current_user, booking: booking).booking_received.deliver_later
+          
+          render json: booking, status: :ok
+        else
+          render json: booking.errors.full_messages, status: :unprocessable_entity
+        end
       else
-        render json: booking.errors.full_messages, status: :unprocessable_entity
+        render json: { error: 'Room not found for the given room_type' }, status: :not_found
       end
     else
-      render json: { error: 'Room not found for the given room_type' }, status: :not_found
+      booking = Booking.new(booking_params)
+            if booking.save
+                render json: {message: "Booking Created" ,booking: booking}, status: :ok
+            else
+                render json: booking.errors.full_messages, status: :unprocessable_entity
+            end
     end
   else
     render json: { error: 'You need to be logged in to book' }, status: :unauthorized
   end
 end
 
+# POST /user/message
 
- # PATCH /bookings/:id  (If logged in)
+def personal_mail  
+  user_email = params[:email]
+  title = params[:title]
+  message = params[:message]
+  UserMailer.send_personalized_email(email: user_email, title: title, message: message).deliver_later
+  render json: { title: title, message: message }
+end
+
+
+ # PUT /bookings/:id  (If logged in)
     def update
         booking = find_booking
         current_user = @current_user
         if current_user && current_user.role == "admin"
-            if booking.update(params.permit[:notes])
-                render json: article, status: :accepted
+            if booking.update(booking_params)
+                render json: booking, status: :accepted
             else
-                render json: article.errors, status: :unprocessable_entity
+                render json: booking.errors, status: :unprocessable_entity
             end
         else
             render json: { error: "You are not authorized to perform this action" }, status: :unauthorized
@@ -58,13 +88,13 @@ def approve
     current_user = @current_user
   
     if current_user && current_user.role == "admin"
-      if params[:approved].to_s == "true"
+      if booking.approved == false
         if booking.update(approved: true)
           render json: { message: 'Booking approved' }
         else
           render json: { error: 'Unable to approve booking' }, status: :unprocessable_entity
         end
-      elsif params[:approved].to_s == "false"
+      elsif booking.approved == true
         if booking.update(approved: false)
           render json: { message: 'Booking denied' }
         else
@@ -98,7 +128,7 @@ private
     end
 
     def booking_params
-        params.require(:booking).permit(:start_date, :end_date, :user_id, :notes)
+        params.require(:booking).permit(:start_date, :end_date, :room_id,  :user_id, :notes)
     end
 
     def render_not_found_response

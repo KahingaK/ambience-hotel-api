@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     def create
         user = User.new(params.permit(:username, :email, :password, :password_confirmation))
         if user.save
+          UserMailer.with(user: user).welcome_email.deliver_later
           token = JWT.encode({ user_id: user.id }, Rails.application.secrets.secret_key_base)
           
           render json: {message: "log in successful", user: user, token: token }, status: :created

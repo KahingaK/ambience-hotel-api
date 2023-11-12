@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
           @current_user_id = decoded[0]['user_id']
           @current_user = User.find(@current_user_id)
         rescue JWT::DecodeError
-          render json: { error: 'Invalid token' }, status: :unauthorized
+         
         end
       end
 
