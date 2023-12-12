@@ -7,8 +7,8 @@ class BookingsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   # GET /bookings
     def index
-        bookings = Booking.all
-        render json: bookings.to_json(include: :user), status: :ok
+        bookings = Booking.all.order(id: :desc)
+        render json: bookings.to_json(include: [:user, :payment]), status: :ok
     end
     #GET /activebookings
     def active_bookings
@@ -16,7 +16,7 @@ class BookingsController < ApplicationController
       end_of_week = Date.today.end_of_week
       today = Date.today
       active_bookings = Booking.where('end_date > ? AND start_date >= ? AND start_date <= ?', today, start_of_week, end_of_week) 
-      render json: active_bookings.to_json(include: :user), status: :ok
+      render json: active_bookings.to_json(include:  [:user, :payment]), status: :ok
     end
 
 # POST /bookings (If logged in)
@@ -26,15 +26,16 @@ def create
   if current_user 
     if current_user.role == "guest"
     # Find the room based on room_type
-      room = Room.find_by(room_type: params[:room_type])
+      room = Room.find_by(room_type: params[:room_type], available: true)
 
       if room
         # Create a booking with the found room_id
         booking = current_user.bookings.new(booking_params.merge(room_id: room.id))
 
         if booking.save
-          UserMailer.with(booking: booking).admin_notification.deliver_later
+          room.update(available: false)
           UserMailer.with(user: current_user, booking: booking).booking_received.deliver_later
+          UserMailer.with(booking: booking).admin_notification.deliver_later        
           
           render json: booking, status: :ok
         else
@@ -46,7 +47,8 @@ def create
     else
       booking = Booking.new(booking_params)
             if booking.save
-                render json: {message: "Booking Created" ,booking: booking}, status: :ok
+              UserMailer.with(booking: booking).admin_notification.deliver_later   
+              render json: {message: "Booking Created" ,booking: booking}, status: :ok
             else
                 render json: booking.errors.full_messages, status: :unprocessable_entity
             end

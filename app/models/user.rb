@@ -1,12 +1,14 @@
 class User < ApplicationRecord
     #Relationships
     has_many :bookings
+    has_many :reviews
+    has_many :payments
 
     # Helper method to encrypt password
      has_secure_password
 
     # roles
-     enum role: [:guest, :admin]
+     enum role: [:guest, :admin, :staff]
 
     # Validations
     validates :email, presence: true, uniqueness: true

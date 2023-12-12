@@ -10,6 +10,8 @@ User.create([
     { username: 'admin', email: 'admin@example.com', password: 'password', role: 1  }, # Admin user
     { username: 'user2', email: 'user2@example.com', password: 'password' },
     { username: 'user3', email: 'user3@example.com', password: 'password'},
+    { username: 'Kymme', email: 'ikahinga@gmail.com', password: 'password', role: 1},
+    { username: 'kahinga', email: 'kahingadev@gmail.com', password: 'password'},
   ])
   
   # Create some rooms
@@ -24,6 +26,12 @@ User.create([
     { start_date: Date.today, end_date: Date.today + 3, notes: 'First booking', user_id: 1, room_id: 1 },
     { start_date: Date.today + 5, end_date: Date.today + 7, notes: 'Second booking', user_id: 2, room_id: 2 },
     { start_date: Date.today - 2, end_date: Date.today, notes: 'Third booking', user_id: 1, room_id: 3 },
+  ])
+
+  Review.create([
+    { content: "Very good atmosphere. Would come again", user_id:2},
+    { content: "Good food from kitchen. ", user_id:3},
+    { content: "Great stop over enroute to Ug", user_id:2}
   ])
   
   puts "Seed data created successfully"
