@@ -82,5 +82,4 @@ test:
 production:
   <<: *default
   database: ambience_hotel_api_production
-  username: ambience_hotel_api
-  password: <%= ENV["AMBIENCE_HOTEL_API_DATABASE_PASSWORD"] %>
+ 
