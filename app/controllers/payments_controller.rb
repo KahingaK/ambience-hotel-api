@@ -46,9 +46,9 @@ class PaymentsController < ApplicationController
     'Timestamp': timestamp,
     'TransactionType': "CustomerPayBillOnline",
     'Amount': amount,
-    'PartyA': phone_number,
+    'PartyA': validated_phone_number,
     'PartyB': business_short_code,
-    'PhoneNumber': phone_number,
+    'PhoneNumber':  validated_phone_number,
     'CallBackURL': "#{ENV["CALLBACK_URL"]}/mpesa_callback",
     'AccountReference': 'Codearn',
     'TransactionDesc': "Payment for Codearn premium"
@@ -80,9 +80,9 @@ class PaymentsController < ApplicationController
       # Modify the TransactionCode attribute
       payment.update(checkout: checkout_request_id)
 
-      render json: { message: 'Payment updated', result_desc: result_desc, payment: payment }, status: :ok
+      [ :success, JSON.parse(response.to_str) ]
     else
-      payment = Payment.create(phone_number: phone_number, amount: amount, user_id: user_id, booking_id: booking_id, checkout: checkout_request_id )
+      payment = Payment.create(phone_number:  validated_phone_number, amount: amount, user_id: user_id, booking_id: booking_id, checkout: checkout_request_id )
 
       [ :success, JSON.parse(response.to_str) ]
     end
