@@ -17,11 +17,11 @@ class UserMailer < ApplicationMailer
   def admin_notification    
     filtered_users = User.select {|user| user.role == "admin"}
     @booking = params[:booking]
-
+    admin_emails = filtered_users.map { |user| user.email }
     filtered_users.each do |user|
       # Send mail to each admin user
       @user = user
-      mail(to: @user.email, subject: 'New Booking')
+      mail(to: @user.email, bcc: admin_emails, subject: 'New Booking')
     end
 
 

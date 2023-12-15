@@ -1,13 +1,15 @@
 require "active_support/core_ext/integer/time"
 
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  config.cache_classes = false  
 
+  config.hosts << "00d8-197-232-61-204.ngrok-free.app"
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -69,12 +71,15 @@ config.action_mailer.default_options = { from: 'no-reply@example.com' }
    address:              'smtp.gmail.com',
    port:                 587,
    domain:               'example.com',
-   user_name: "kahingadev@gmail.com",
-   password: "hfre llxj tqvx vaxw",
+   user_name:       ENV['GMAIL_USERNAME'],
+   password:        ENV['GMAIL_PASSWORD'],
    authentication:       'plain',
    enable_starttls_auto: true,
-   open_timeout:         20,
-   read_timeout:         20 }
+   open_timeout:         60,
+   read_timeout:         60 }
+
+   
+
 
 
   # Raises error for missing translations.

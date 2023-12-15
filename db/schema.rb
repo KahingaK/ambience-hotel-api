@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_102458) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_205916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_tokens", force: :cascade do |t|
+    t.string "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "bookings", force: :cascade do |t|
     t.date "start_date"
@@ -23,6 +29,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_102458) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "room_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.string "phone_number"
+    t.integer "amount"
+    t.string "transaction_number"
+    t.bigint "user_id", null: false
+    t.bigint "booking_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "checkout"
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "content"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -47,4 +73,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_102458) do
 
   add_foreign_key "bookings", "rooms"
   add_foreign_key "bookings", "users"
+  add_foreign_key "payments", "bookings"
+  add_foreign_key "payments", "users"
+  add_foreign_key "reviews", "users"
 end

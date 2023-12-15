@@ -1,7 +1,11 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.4"
+ruby "2.7.4",  :engine => "jruby", :engine_version => "9.3.13.0"
+
+gem "net-http"
+
+gem 'dotenv-rails', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.5"
@@ -12,11 +16,13 @@ gem "pg", "~> 1.1"
 # Auth using JSON Web Tokens
 gem 'jwt'
 
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
+
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -44,6 +50,8 @@ gem "bootsnap", require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
+
+gem 'rest-client'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
