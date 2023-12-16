@@ -8,7 +8,7 @@ set :repo_url, "git@github.com:KahingaK/ambience-hotel-api.git"
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/deployy/western"
+set :deploy_to, "/home/deployy/#{fetch :application}"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -22,7 +22,7 @@ set :deploy_to, "/home/deployy/western"
 
 # Default value for :linked_files is []
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache',
- 'tmp/sockets', 'tmp/webpacker', 'vendor',
+ 'tmp/sockets', 'vendor/bundle',
  '.bundle', 'public/system', 'public/uploads', 'storage'
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "vendor", "storage"
