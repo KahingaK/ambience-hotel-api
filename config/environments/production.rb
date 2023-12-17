@@ -11,7 +11,7 @@ Rails.application.configure do
   # and those relying on copy on write to perform better.
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
-  config.hosts << "stingray-app-5qt7s.ondigitalocean.app"
+  config.hosts << "24.144.86.27"
 
 
   # Full error reports are disabled and caching is turned on.
