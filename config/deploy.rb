@@ -21,6 +21,7 @@ set :deploy_to, "/home/deployy/#{fetch :application}"
 # set :pty, true
 
 # Default value for :linked_files is []
+set :assets_roles, [] # 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/webpacker', 'vendor', '.bundle', 'public/system', 'public/uploads', 'storage'
 
 # Default value for linked_dirs is []
