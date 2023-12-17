@@ -83,6 +83,6 @@ production:
   <<: *default
   database: ambience_hotel_api_production
   host: 127.0.0.1
-    password: password
+  password: password
 
  
