@@ -9,7 +9,8 @@ class User < ApplicationRecord
      has_secure_password
 
     # roles
-     enum role: [:guest, :admin, :staff]
+    enum role: { guest: 0, admin: 1, staff: 2 }
+
 
     # Validations
     validates :email, presence: true, uniqueness: true
