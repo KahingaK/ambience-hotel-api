@@ -14,7 +14,7 @@ gem "rails", "~> 7.0.5"
 gem "pg", "~> 1.1"
 
 # Auth using JSON Web Tokens
-gem 'jwt'
+gem 'jwt', '~> 2.7'
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
