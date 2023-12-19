@@ -12,7 +12,7 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
   config.hosts << "westernambiencehotel.online"
-  config.hosts << "24.144.86.27"
+
 
    # Configure mailers to gmail
    config.action_mailer.delivery_method = :smtp

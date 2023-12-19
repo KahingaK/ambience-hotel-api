@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :reviews, only: [:index, :create, :destroy]
   
   # GET /active
-    get 'active_bookings', to: 'bookings#active_bookings'
+    get '/active_bookings', to: 'bookings#active_bookings'
 
   # POST /signup
     post "/signup", to: "users#create"
