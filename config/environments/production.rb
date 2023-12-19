@@ -13,6 +13,19 @@ Rails.application.configure do
   config.eager_load = true
   config.hosts << "westernambiencehotel.online"
 
+   # Configure mailers to gmail
+   config.action_mailer.delivery_method = :smtp
+   config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'example.com',
+    user_name:       ENV['GMAIL_USERNAME'],
+    password:        ENV['GMAIL_PASSWORD'],
+    authentication:       'plain',
+    enable_starttls_auto: true,
+    open_timeout:         60,
+    read_timeout:         60 }
+
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
