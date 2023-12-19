@@ -20,8 +20,8 @@ class UserMailer < ApplicationMailer
     admin_emails = filtered_users.map { |user| user.email }
     filtered_users.each do |user|
       # Send mail to each admin user
-      @user = user
-      mail(to: @user.email, bcc: admin_emails, subject: 'New Booking')
+      
+      mail(to: user.email, bcc: admin_emails, subject: 'New Booking')
     end
 
 
