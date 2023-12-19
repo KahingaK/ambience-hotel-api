@@ -24,7 +24,7 @@ class BookingsController < ApplicationController
 def create
   current_user = @current_user
   if current_user 
-    if current_user.role == "guest"
+    if current_user && current_user.role == "guest"
     # Find the room based on room_type
       room = Room.find_by(room_type: params[:room_type], available: true)
 
