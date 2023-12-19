@@ -1,5 +1,5 @@
 require_relative "boot"
-
+require 'sprockets'
 require "rails/all"
 require 'dotenv/rails-now'
 

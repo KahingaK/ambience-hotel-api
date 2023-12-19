@@ -3,6 +3,7 @@ class User < ApplicationRecord
     has_many :bookings
     has_many :reviews
     has_many :payments
+    has_many :posts
 
     # Helper method to encrypt password
      has_secure_password

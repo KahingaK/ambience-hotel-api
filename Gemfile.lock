@@ -199,6 +199,9 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    sprockets (4.2.1)
+      concurrent-ruby (~> 1.0)
+      rack (>= 2.2.4, < 4)
     sshkit (1.21.6)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -220,10 +223,10 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bcrypt_pbkdf (~> 1.1)
   bootsnap
-  capistrano (~> 3.17)
-  capistrano-passenger (~> 0.2.1)
-  capistrano-rails (~> 1.6, >= 1.6.2)
-  capistrano-rbenv (~> 2.2)
+  capistrano (~> 3.11)
+  capistrano-passenger (~> 0.2.0)
+  capistrano-rails (~> 1.4)
+  capistrano-rbenv (~> 2.1, >= 2.1.4)
   capistrano-rvm
   debug
   dotenv-rails
@@ -235,6 +238,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.5)
   rest-client
+  sprockets (~> 4.2, >= 4.2.1)
   tzinfo-data
 
 RUBY VERSION
