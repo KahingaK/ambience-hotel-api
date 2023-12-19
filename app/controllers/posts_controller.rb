@@ -20,7 +20,7 @@ class PostsController < ApplicationController
   # POST (If logged in)
   def create
     current_user = @current_user
-    if current_user.admin?
+    if current_user.role == "admin"
 
         post = Post.new(post_params)
         post.user_id = current_user.id 
