@@ -28,22 +28,22 @@ def create
     # Find the room based on room_type
       room = Room.find_by(room_type: params[:room_type], available: true)
 
-      if room
-        # Create a booking with the found room_id
-        booking = current_user.bookings.new(booking_params.merge(room_id: room.id))
+                if room
+                  # Create a booking with the found room_id
+                  booking = current_user.bookings.new(booking_params.merge(room_id: room.id))
 
-        if booking.save
-          room.update(available: false)
-          UserMailer.with(user: current_user, booking: booking).booking_received.deliver_later
-          UserMailer.with(booking: booking).admin_notification.deliver_later        
-          
-          render json: booking, status: :ok
-        else
-          render json: booking.errors.full_messages, status: :unprocessable_entity
-        end
-      else
-        render json: { error: 'Room not found for the given room_type' }, status: :not_found
-      end
+                            if booking.save
+                              room.update(available: false)
+                              UserMailer.with(user: current_user, booking: booking).booking_received.deliver_later
+                              UserMailer.with(booking: booking).admin_notification.deliver_later        
+                              
+                              render json: booking, status: :ok
+                            else
+                              render json: booking.errors.full_messages, status: :unprocessable_entity
+                            end
+                else
+                  render json: { error: 'Room not found for the given room_type' }, status: :not_found
+                end
     else
       booking = Booking.new(booking_params)
             if booking.save

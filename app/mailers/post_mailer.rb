@@ -6,10 +6,13 @@ class PostMailer < ApplicationMailer
         @user = User.find_by(id: @user_id)    
         @title =  params[:title]
         @body =  params[:body]
+
      
         @recipients = User.all
-        emails = @recipients.collect(&:email).join(",")
+        @recipients.each do |username|
+            # Send mail to each admin user
+            @username = username
     
-        mail(to: emails, subject: @title)
+        mail(to: @username.email, subject: @title)
       end
 end
