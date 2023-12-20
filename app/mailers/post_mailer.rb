@@ -10,8 +10,8 @@ class PostMailer < ApplicationMailer
       @recipients = User.all
   
       @recipients.each do |recipient|
-        # Send mail to each admin user
-        mail(to: recipient.email, subject: @title)
+        @recipient = recipient
+        mail(to: @recipient.email, subject: @title)
       end
     end
   end
