@@ -44,6 +44,7 @@ class PaymentsController < ApplicationController
     url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     timestamp = "#{Time.now.strftime "%Y%m%d%H%M%S"}"
     business_short_code = ENV["MPESA_SHORTCODE"]
+    callbackUrl = ENV["CALLBACK_URL"]
     password = Base64.strict_encode64("#{business_short_code}#{ENV["MPESA_PASSKEY"]}#{timestamp}")
     payload = {
     'BusinessShortCode': business_short_code,
@@ -54,7 +55,7 @@ class PaymentsController < ApplicationController
     'PartyA': validated_phone_number,
     'PartyB': business_short_code,
     'PhoneNumber':  validated_phone_number,
-    'CallBackURL': "#{ENV["CALLBACK_URL"]}",
+    'CallBackURL': "#{callbackUrl}",
     'AccountReference': 'Codearn',
     'TransactionDesc': "Payment for Codearn premium"
     }.to_json
