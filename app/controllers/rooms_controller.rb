@@ -35,7 +35,7 @@ class RoomsController < ApplicationController
     end
 
      # PATCH /rooms/:id  (If logged in)
-     def update
+     def update 
         room = find_room
         current_user = @current_user
         if current_user && current_user.role == "admin"

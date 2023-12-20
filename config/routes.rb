@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :reviews, only: [:index, :create, :destroy]
   
   # GET /active
-    get 'active_bookings', to: 'bookings#active_bookings'
+    get '/active_bookings', to: 'bookings#active_bookings'
 
   # POST /signup
     post "/signup", to: "users#create"
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     post '/login', to: 'users#login'
 
   #POST /send_mail
-  post 'bookings/send_email', to: 'bookings#personal_mail'
+  post '/bookings/send_email', to: 'bookings#personal_mail'
 
   #PATCH /booking/:id/approve
     patch "/bookings/:id/approve", to: 'bookings#approve'
@@ -23,9 +23,9 @@ Rails.application.routes.draw do
     patch "/rooms/:id/available", to: "rooms#available"
 
   #payments
-  post 'stkpush', to: 'payments#stkpush'
-  post 'stkquery', to: 'payments#stkquery'
-  post 'mpesa_callback', to: 'payments#callback'
+  post '/stkpush', to: 'payments#stkpush'
+  post '/stkquery', to: 'payments#stkquery'
+  post '/mpesa_callback', to: 'payments#callback'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
