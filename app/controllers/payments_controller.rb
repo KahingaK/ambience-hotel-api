@@ -1,6 +1,5 @@
 class PaymentsController < ApplicationController
-  before_action :set_payment, only: %i[ show update destroy ]
- 
+   
 
   # GET /payments
   def index
@@ -49,7 +48,7 @@ class PaymentsController < ApplicationController
     'PartyA': validated_phone_number,
     'PartyB': business_short_code,
     'PhoneNumber':  validated_phone_number,
-    'CallBackURL': "#{ENV["CALLBACK_URL"]}/mpesa_callback",
+    'CallBackURL': "#{ENV["CALLBACK_URL"]}",
     'AccountReference': 'Codearn',
     'TransactionDesc': "Payment for Codearn premium"
     }.to_json
