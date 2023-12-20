@@ -1,5 +1,11 @@
 class PaymentsController < ApplicationController
-   
+  before_action :authorize_request 
+    # Handle ActiveRecord Not Found exception
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+
+    # Handle ActiveRecord Unprocessable Entity - raised when a record fails to save or validate in the database.
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+
 
   # GET /payments
   def index
