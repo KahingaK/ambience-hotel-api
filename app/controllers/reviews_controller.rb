@@ -18,7 +18,7 @@ class ReviewsController < ApplicationController
         current_user = @current_user
         if current_user 
 
-            review = Review.new(params.permit( :content))
+            review = Review.new(params.permit(:content))
             review.user_id = current_user.id 
             if review.save
                 render json: {message: "Review Created" ,review: review.to_json(include: :user)}, status: :ok

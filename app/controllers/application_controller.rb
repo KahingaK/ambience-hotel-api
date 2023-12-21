@@ -26,12 +26,16 @@ class ApplicationController < ActionController::API
   rescue JWT::DecodeError
     nil
   end
-
   def set_current_user(decoded)
-    @current_user_id = decoded[0]['user_id']
-    @current_user = User.find(@current_user_id)
+    if decoded.present? && decoded.is_a?(Array) && decoded[0].present? && decoded[0]['user_id'].present?
+      @current_user_id = decoded[0]['user_id']
+      @current_user = User.find(@current_user_id)
+    else
+      render json: { error: 'Please login to continue...' }, status: :unauthorized
+    end
   rescue ActiveRecord::RecordNotFound
     # Handle case where user is not found
     render json: { error: 'User not found' }, status: :unauthorized
   end
+  
 end
