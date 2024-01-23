@@ -9,7 +9,7 @@ class PostMailer < ApplicationMailer
   
       @recipients = User.all
   
-      @recipients.each do |recipient|
+       @recipients.each do |recipient|
         @recipient = recipient
         mail(to: @recipient.email, subject: @title)
       end
