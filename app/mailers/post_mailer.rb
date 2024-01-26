@@ -7,11 +7,11 @@ class PostMailer < ApplicationMailer
       @title = params[:title]
       @body = params[:body]
   
-      @recipients = User.all
-  
-       @recipients.each do |recipient|
+      recipients = User.all
+       recipients.each do |recipient|
         @recipient = recipient
         mail(to: @recipient.email, subject: @title)
       end
     end
+
   end
