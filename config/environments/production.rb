@@ -12,6 +12,9 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
   config.hosts << "westernambiencehotel.online"
+  config.action_mailer.default_url_options = { host: 'westernambiencehotel.online' } # for absolute urls in email
+  config.action_mailer.asset_host = "https://westernambiencehotel.online" # for image URLs in HTML email
+
 
 
    # Configure mailers to gmail

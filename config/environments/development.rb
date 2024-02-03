@@ -12,6 +12,7 @@ Rails.application.configure do
   config.hosts << "00d8-197-232-61-204.ngrok-free.app"
   # Do not eager load code on boot.
   config.eager_load = false
+  
 
   # Show full error reports.
   config.consider_all_requests_local = true
@@ -63,8 +64,11 @@ Rails.application.configure do
 # }
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = true
-config.action_mailer.default_options = { from: 'no-reply@example.com' }
+config.action_mailer.default_url_options = { host: 'localhost:3000' } # for absolute urls in email
+config.action_mailer.asset_host = "http://localhost:3000" # for image URLs in HTML email
 
+# Allow generating absolute urls with routing url helpers.
+Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   # Configure mailers to gmail
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

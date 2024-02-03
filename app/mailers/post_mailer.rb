@@ -6,12 +6,12 @@ class PostMailer < ApplicationMailer
       @user = User.find_by(id: @user_id)
       @title = params[:title]
       @body = params[:body]
+
+      @image_url = params[:image_url]
   
       recipients = User.all
-       recipients.each do |recipient|
-        @recipient = recipient
-        mail(to: @recipient.email, subject: @title)
-      end
+       recipient_emails = recipients.pluck(:email)
+        mail(bcc: recipient_emails, subject: @title)
     end
 
   end

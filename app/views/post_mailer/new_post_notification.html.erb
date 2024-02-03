@@ -5,10 +5,14 @@
 </head>
 <body>
   
-  <p>Hello <%= @recipient.username %>,</p>
+  <p>Hello ,</p>
   <h1><%= @title %></h1> 
   <p><%= @body %></p>
-  <p>regards, <%= @user.username %>,</p>
+  <% if @image_url.present? %>
+    <img src="<%= @image_url %>" alt="Post Image" style="max-width: 100%;" />
+  <% end %>
+
+  <p>Regards, <%= @user.username %>,</p>
     <p>
           &copy; Western Ambience Bliss Hotel - All rights reserved.
         </p>
