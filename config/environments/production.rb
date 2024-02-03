@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
   config.hosts << "westernambiencehotel.online"
   config.action_mailer.default_url_options = { host: 'westernambiencehotel.online' } # for absolute urls in email
-  config.action_mailer.asset_host = "https://westernambiencehotel.online" # for image URLs in HTML email
+  config.action_mailer.asset_host = "https://www.westernambiencehotel.online" # for image URLs in HTML email
 
 
 
