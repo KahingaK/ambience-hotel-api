@@ -14,7 +14,9 @@ Rails.application.configure do
   config.hosts << "westernambiencehotel.online"
   config.action_mailer.default_url_options = { host: 'westernambiencehotel.online' } # for absolute urls in email
   config.action_mailer.asset_host = "https://www.westernambiencehotel.online" # for image URLs in HTML email
-
+ 
+  # Allow generating absolute urls with routing url helpers.
+  Rails.application.routes.default_url_options[:host] = 'westernambiencehotel.online'
 
 
    # Configure mailers to gmail
