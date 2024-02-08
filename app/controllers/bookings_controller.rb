@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
     before_action :authorize_request
+    skip_before_action :authorize_request, only: [:create_new]  
     # Handle ActiveRecord Not Found exception
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
@@ -56,6 +57,41 @@ def create
   else
     render json: { error: 'You need to be logged in to book' }, status: :unauthorized
   end
+end
+
+def create_new
+    
+    # Generate a random password for the new user
+    password = Array.new(10) { [*'a'..'z', *'A'..'Z', *'0'..'9'].sample }.join
+    user = User.new(email: params[:email], password: password)
+
+
+    user.update(password: password, password_confirmation: password)
+    if user.save
+      # Generate a random password for the new user
+      
+      
+      # Now proceed to create the booking for the new user
+      room = Room.find_by(room_type: params[:room_type], available: true)
+      if room
+        booking = user.bookings.new(booking_params.merge(room_id: room.id))
+        if booking.save
+          room.update(available: false)
+          UserMailer.with(user: user).welcome_booking_email.deliver_later
+          UserMailer.with(user: user, booking: booking).booking_received.deliver_later
+          UserMailer.with(booking: booking).admin_notification.deliver_later        
+          render json: booking, status: :ok
+        else
+          render json: booking.errors.full_messages, status: :unprocessable_entity
+        end
+      else
+        render json: { error: 'Room not found for the given room_type' }, status: :not_found
+      end
+    else
+      render json: user.errors.full_messages, status: :unprocessable_entity
+    end
+  
+  
 end
 
 # POST /user/message

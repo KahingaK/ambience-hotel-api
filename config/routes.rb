@@ -23,6 +23,12 @@ Rails.application.routes.draw do
   # PATCH /rooms/:id/available
     patch "/rooms/:id/available", to: "rooms#available"
 
+    #POST bookings
+    post "/bookings_new", to: "bookings#create_new"
+
+    get '/reset_password/:reset_token', to: 'password_reset#edit', as: 'edit_password_reset'
+    post '/reset_password',to: 'password_reset#create'
+    put '/update_password/:reset_token', to: 'password_reset#update'
   #payments
   # post '/stkpush', to: 'payments#stkpush'
   # post '/stkquery', to: 'payments#stkquery'
